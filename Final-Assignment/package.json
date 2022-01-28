@@ -23,10 +23,13 @@
   "author": "Google LLC",
   "license": "BSD-3-Clause",
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^31.1.0",
+    "@material/mwc-select": "^0.25.3",
     "@material/mwc-textarea": "^0.25.3",
     "@material/mwc-textfield": "^0.25.3",
     "@material/progress-indicator": "^13.0.0",
     "@material/select": "^13.0.0",
+    "ckeditor4": "^4.17.1",
     "lit": "^2.0.0"
   },
   "devDependencies": {

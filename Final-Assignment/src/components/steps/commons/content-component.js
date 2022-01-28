@@ -1,8 +1,14 @@
 import { LitElement, html, css } from 'lit';
-
+import './list-component';
+import './form-component';
 export class StepsContent extends LitElement {
   static get styles() {
-    return css``;
+    return css`
+      form-component {
+        display: flex;
+        flex-direction: column;
+      }
+    `;
   }
 
   static get properties() {
@@ -14,7 +20,8 @@ export class StepsContent extends LitElement {
   }
 
   render() {
-    return html``;
+    return html`<list-component></list-component>
+      <form-component></form-component> `;
   }
 }
 
