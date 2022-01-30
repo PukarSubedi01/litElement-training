@@ -20,6 +20,8 @@ export class StepsContent extends LitElement {
     return {
       saveOnPause: { type: Function },
       stepsList: [],
+      selectStep: { type: Function },
+      selectedStep: { type: Object },
     };
   }
 
@@ -28,8 +30,14 @@ export class StepsContent extends LitElement {
   }
 
   render() {
-    return html`<list-component .stepsList=${this.stepsList}></list-component>
-      <form-component .saveOnPause=${this.saveOnPause}></form-component> `;
+    return html`<list-component
+        .stepsList=${this.stepsList}
+        .selectStep=${this.selectStep}
+      ></list-component>
+      <form-component
+        .saveOnPause=${this.saveOnPause}
+        .selectedStep=${this.selectedStep}
+      ></form-component> `;
   }
 }
 

@@ -8,6 +8,7 @@ export class StepsList extends LitElement {
   static get properties() {
     return {
       stepsList: [],
+      selectStep: { type: Function },
     };
   }
 
@@ -19,12 +20,10 @@ export class StepsList extends LitElement {
     return html`
       <mwc-list activatable>
         ${this.stepsList.map((step, index) => {
-          return html`<mwc-list-item>${step.step}</mwc-list-item>`;
+          return html`<mwc-list-item @click=${() => this.selectStep(index)}
+            >${step.step}</mwc-list-item
+          >`;
         })}
-        <!-- <mwc-list-item>Item 0</mwc-list-item> -->
-        <!-- <mwc-list-item selected activated>Item 1</mwc-list-item>
-        <mwc-list-item>Item 2</mwc-list-item>
-        <mwc-list-item>Item 3</mwc-list-item> -->
       </mwc-list>
     `;
   }

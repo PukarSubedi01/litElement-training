@@ -15,6 +15,7 @@ export class StepsForm extends LitElement {
   static get properties() {
     return {
       saveOnPause: { type: Function },
+      selectedStep: { type: Object },
     };
   }
 
@@ -28,7 +29,7 @@ export class StepsForm extends LitElement {
         class="form-element"
         outlined
         label="Name *"
-        value="New Step"
+        .value=${this.selectedStep.step}
         name="step"
         @input=${(e) => {
           this.saveOnPause(e);
@@ -51,6 +52,7 @@ export class StepsForm extends LitElement {
         @input=${(e) => {
           this.saveOnPause(e);
         }}
+        .value=${this.selectedStep.metrics}
         outlined
         label="Metrics"
       >
