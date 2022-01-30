@@ -1,6 +1,7 @@
 import { LitElement, html, css } from 'lit';
 import './commons/steps-header';
 import './commons/content-component';
+import '@material/mwc-linear-progress';
 export class StepComponent extends LitElement {
   static get styles() {
     return css`
@@ -22,6 +23,7 @@ export class StepComponent extends LitElement {
       stepsList: { type: Array },
       step: { type: Object },
       selectedStep: { type: Object },
+      showProgress: { type: Boolean },
     };
   }
 
@@ -37,11 +39,16 @@ export class StepComponent extends LitElement {
     this.selectedStep = this.stepsList[this.selectedIndex];
 
     this.timeoutId = undefined;
+    this.showProgress = false;
+    this.progressTimeOutId = undefined;
   }
 
   render() {
     return html`
       <steps-header .addStep=${this.addStep}></steps-header>
+      ${this.showProgress
+        ? html` <mwc-linear-progress indeterminate></mwc-linear-progress> `
+        : html`<mwc-linear-progress></mwc-linear-progress>`}
       <content-component
         .saveOnPause=${this.saveOnPause}
         .stepsList=${this.stepsList}
@@ -60,13 +67,17 @@ export class StepComponent extends LitElement {
     let value = event.target.value;
 
     clearTimeout(this.timeOutId);
+    clearTimeout(this.progressTimeOutId);
+
+    this.progressTimeOutId = setTimeout(() => {
+      this.showProgress = true;
+    }, 1000);
     this.timeOutId = setTimeout(() => {
       this.stepsList[this.selectedIndex][name] = value;
       this.stepsList = [...this.stepsList];
       localStorage.setItem('steps', JSON.stringify(this.stepsList));
-    }, 2000);
-
-    // this.step[name] = value;
+      this.showProgress = false;
+    }, 3000);
   }
   selectStep(index) {
     this.selectedIndex = index;

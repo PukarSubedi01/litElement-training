@@ -36,7 +36,16 @@ export class StepsForm extends LitElement {
         }}
       >
       </mwc-textfield>
-      <mwc-select class="form-element" outlined label="Requirements">
+      <mwc-select
+        class="form-element"
+        outlined
+        label="Requirements"
+        name="requirements"
+        @selected=${(e) => {
+          console.log(e.target);
+          this.saveOnPause(e);
+        }}
+      >
         <mwc-list-item></mwc-list-item>
         <mwc-list-item value="0">Item 0</mwc-list-item>
         <mwc-list-item value="1">Item 1</mwc-list-item>
