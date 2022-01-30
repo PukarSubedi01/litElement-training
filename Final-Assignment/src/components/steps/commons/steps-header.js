@@ -24,13 +24,18 @@ export class StepHeader extends LitElement {
   }
 
   static get properties() {
-    return {};
+    return {
+      addStep: { type: Function },
+    };
   }
 
   constructor() {
     super();
   }
-
+  firstUpdated() {
+    let addStep = this.shadowRoot.querySelector('.add-steps');
+    addStep.addEventListener('click', this.addStep);
+  }
   render() {
     return html`
       <h2>Steps</h2>

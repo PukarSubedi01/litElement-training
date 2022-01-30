@@ -6,7 +6,9 @@ export class StepsList extends LitElement {
   }
 
   static get properties() {
-    return {};
+    return {
+      stepsList: [],
+    };
   }
 
   constructor() {
@@ -14,7 +16,17 @@ export class StepsList extends LitElement {
   }
 
   render() {
-    return html``;
+    return html`
+      <mwc-list activatable>
+        ${this.stepsList.map((step, index) => {
+          return html`<mwc-list-item>${step.step}</mwc-list-item>`;
+        })}
+        <!-- <mwc-list-item>Item 0</mwc-list-item> -->
+        <!-- <mwc-list-item selected activated>Item 1</mwc-list-item>
+        <mwc-list-item>Item 2</mwc-list-item>
+        <mwc-list-item>Item 3</mwc-list-item> -->
+      </mwc-list>
+    `;
   }
 }
 

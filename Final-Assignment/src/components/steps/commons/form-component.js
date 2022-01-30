@@ -13,7 +13,9 @@ export class StepsForm extends LitElement {
   }
 
   static get properties() {
-    return {};
+    return {
+      saveOnPause: { type: Function },
+    };
   }
 
   constructor() {
@@ -27,6 +29,10 @@ export class StepsForm extends LitElement {
         outlined
         label="Name *"
         value="New Step"
+        name="step"
+        @input=${(e) => {
+          this.saveOnPause(e);
+        }}
       >
       </mwc-textfield>
       <mwc-select class="form-element" outlined label="Requirements">
@@ -37,17 +43,17 @@ export class StepsForm extends LitElement {
         <mwc-list-item value="3">Item 3</mwc-list-item>
       </mwc-select>
 
-      <mwc-textfield
-        class="form-element"
-        outlined
-        label="Name *"
-        value="New Step"
-      >
-      </mwc-textfield>
-
       <!-- Text Editor Goes Here -->
 
-      <mwc-textarea class="form-element" outlined label="Metrics">
+      <mwc-textarea
+        class="form-element"
+        name="metrics"
+        @input=${(e) => {
+          this.saveOnPause(e);
+        }}
+        outlined
+        label="Metrics"
+      >
       </mwc-textarea>
 
       <mwc-select class="form-element" outlined label="Security Roles">

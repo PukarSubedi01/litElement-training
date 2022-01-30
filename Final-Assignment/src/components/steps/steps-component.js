@@ -7,22 +7,49 @@ export class StepComponent extends LitElement {
       steps-header {
         display: flex;
       }
+      content-component {
+        display: flex;
+        flex-direction: row;
+      }
     `;
   }
 
   static get properties() {
-    return {};
+    return {
+      saveOnPause: { type: Function },
+      addStep: { type: Function },
+      stepsList: { type: Array },
+      step: { type: Object },
+    };
   }
 
   constructor() {
     super();
+    this.saveOnPause = this.saveOnPause.bind(this);
+    this.addStep = this.addStep.bind(this);
+    this.step = { step: 'New Step' };
+    this.initStep = { step: 'New Step' };
+    this.stepsList = [this.initStep];
   }
 
   render() {
     return html`
-      <steps-header></steps-header>
-      <content-component></content-component>
+      <steps-header .addStep=${this.addStep}></steps-header>
+      <content-component
+        .saveOnPause=${this.saveOnPause}
+        .stepsList=${this.stepsList}
+      ></content-component>
     `;
+  }
+  addStep() {
+    this.step = this.initStep;
+    this.stepsList = [...this.stepsList, this.step];
+  }
+
+  saveOnPause(event) {
+    let name = event.target.name;
+    let value = event.target.value;
+    this.step[name] = value;
   }
 }
 
