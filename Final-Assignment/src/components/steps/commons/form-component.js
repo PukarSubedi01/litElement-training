@@ -2,7 +2,7 @@ import { LitElement, html, css } from 'lit';
 import '@material/mwc-textfield';
 import '@material/mwc-textarea';
 import '@material/mwc-select';
-
+import './filterSearch-component';
 export class StepsForm extends LitElement {
   static get styles() {
     return css`
@@ -36,22 +36,8 @@ export class StepsForm extends LitElement {
         }}
       >
       </mwc-textfield>
-      <mwc-select
-        class="form-element"
-        outlined
-        label="Requirements"
-        name="requirements"
-        @selected=${(e) => {
-          this.saveOnPause(e);
-        }}
-      >
-        <mwc-list-item></mwc-list-item>
-        <mwc-list-item value="0">Item 0</mwc-list-item>
-        <mwc-list-item value="1">Item 1</mwc-list-item>
-        <mwc-list-item value="2">Item 2</mwc-list-item>
-        <mwc-list-item value="3">Item 3</mwc-list-item>
-      </mwc-select>
 
+      <filter-component></filter-component>
       <!-- Text Editor Goes Here -->
 
       <mwc-textarea
