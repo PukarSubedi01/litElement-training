@@ -42,7 +42,6 @@ export class StepsForm extends LitElement {
         label="Requirements"
         name="requirements"
         @selected=${(e) => {
-          console.log(e.target);
           this.saveOnPause(e);
         }}
       >

@@ -22,6 +22,7 @@ export class StepsContent extends LitElement {
       stepsList: [],
       selectStep: { type: Function },
       selectedStep: { type: Object },
+      swapListItems: { type: Function },
     };
   }
 
@@ -33,6 +34,7 @@ export class StepsContent extends LitElement {
     return html`<list-component
         .stepsList=${this.stepsList}
         .selectStep=${this.selectStep}
+        .swapListItems=${this.swapListItems}
       ></list-component>
       <form-component
         .saveOnPause=${this.saveOnPause}

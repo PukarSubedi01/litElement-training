@@ -24,6 +24,7 @@ export class StepComponent extends LitElement {
       step: { type: Object },
       selectedStep: { type: Object },
       showProgress: { type: Boolean },
+      swapListItems: { type: Function },
     };
   }
 
@@ -32,6 +33,8 @@ export class StepComponent extends LitElement {
     this.saveOnPause = this.saveOnPause.bind(this);
     this.addStep = this.addStep.bind(this);
     this.selectStep = this.selectStep.bind(this);
+    this.swapListItems = this.swapListItems.bind(this);
+
     this.step = { step: 'New Step' };
     this.stepsList = JSON.parse(localStorage.getItem('steps'));
 
@@ -54,6 +57,7 @@ export class StepComponent extends LitElement {
         .stepsList=${this.stepsList}
         .selectStep=${this.selectStep}
         .selectedStep=${this.selectedStep}
+        .swapListItems=${this.swapListItems}
       ></content-component>
     `;
   }
@@ -82,6 +86,15 @@ export class StepComponent extends LitElement {
   selectStep(index) {
     this.selectedIndex = index;
     this.selectedStep = this.stepsList[index];
+  }
+  swapListItems(swapIndexes) {
+    let temp = this.stepsList[swapIndexes.newIndex];
+    this.stepsList[swapIndexes.newIndex] =
+      this.stepsList[swapIndexes.previousIndex];
+    this.stepsList[swapIndexes.previousIndex] = temp;
+    this.stepsList = [...this.stepsList];
+
+    localStorage.setItem('steps', JSON.stringify(this.stepsList));
   }
 }
 

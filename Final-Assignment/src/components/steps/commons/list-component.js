@@ -9,23 +9,40 @@ export class StepsList extends LitElement {
     return {
       stepsList: [],
       selectStep: { type: Function },
+      swapListItems: { type: Function },
     };
   }
 
   constructor() {
     super();
+    this.listElements = [];
+    this.swapIndexes = {
+      previousIndex: 0,
+      newIndex: 0,
+    };
   }
 
   render() {
-    return html`
-      <mwc-list activatable>
-        ${this.stepsList.map((step, index) => {
-          return html`<mwc-list-item @click=${() => this.selectStep(index)}
-            >${step.step}</mwc-list-item
-          >`;
-        })}
-      </mwc-list>
-    `;
+    this.listElements = [];
+    this.stepsList.forEach((step, index) => {
+      this.listElements.push(html`
+        <p
+          class="draggable"
+          draggable=${true}
+          @click=${() => this.selectStep(index)}
+          @dragover=${(e) => e.preventDefault()}
+          @dragstart=${() => (this.swapIndexes.previousIndex = index)}
+          @drop=${() => {
+            this.swapIndexes.newIndex = index;
+            this.swapListItems(this.swapIndexes);
+          }}
+        >
+          ${step.step}
+        </p>
+      `);
+    });
+
+    return html` <mwc-list activatable> ${this.listElements} </mwc-list> `;
   }
 }
 
