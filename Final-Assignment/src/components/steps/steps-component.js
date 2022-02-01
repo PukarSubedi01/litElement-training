@@ -25,6 +25,8 @@ export class StepComponent extends LitElement {
       selectedStep: { type: Object },
       showProgress: { type: Boolean },
       swapListItems: { type: Function },
+      saveSelectedItems: { type: Function },
+      filterableList: { type: Array },
     };
   }
 
@@ -34,8 +36,11 @@ export class StepComponent extends LitElement {
     this.addStep = this.addStep.bind(this);
     this.selectStep = this.selectStep.bind(this);
     this.swapListItems = this.swapListItems.bind(this);
+    this.saveSelectedItems = this.saveSelectedItems.bind(this);
 
     this.step = { step: 'New Step' };
+
+    // localStorage.setItem('steps', JSON.stringify([this.step]));
     this.stepsList = JSON.parse(localStorage.getItem('steps'));
 
     this.selectedIndex = 0;
@@ -44,6 +49,8 @@ export class StepComponent extends LitElement {
     this.timeoutId = undefined;
     this.showProgress = false;
     this.progressTimeOutId = undefined;
+
+    this.filterableList = [];
   }
 
   render() {
@@ -58,6 +65,7 @@ export class StepComponent extends LitElement {
         .selectStep=${this.selectStep}
         .selectedStep=${this.selectedStep}
         .swapListItems=${this.swapListItems}
+        .saveSelectedItems=${this.saveSelectedItems}
       ></content-component>
     `;
   }
@@ -95,6 +103,16 @@ export class StepComponent extends LitElement {
     this.stepsList = [...this.stepsList];
 
     localStorage.setItem('steps', JSON.stringify(this.stepsList));
+  }
+  saveSelectedItems(value, name) {
+    this.filterableList = this.stepsList[this.selectedIndex][name];
+    if (this.filterableList === undefined) this.filterableList = [];
+    if (!value) return;
+    this.filterableList.push(value);
+    this.stepsList[this.selectedIndex][name] = this.filterableList;
+    this.stepsList = [...this.stepsList];
+    localStorage.setItem('steps', JSON.stringify(this.stepsList));
+    this.filterableList = [];
   }
 }
 

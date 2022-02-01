@@ -12,7 +12,7 @@ export class FilterSearch extends LitElement {
         border-radius: 3px;
         background: #fff;
         display: flex;
-
+        overflow: scroll;
         align-content: flex-start;
         padding: 6px;
       }
@@ -42,6 +42,9 @@ export class FilterSearch extends LitElement {
       searchKeyWord: { type: String },
       filterableList: { type: Array },
       tagElements: { type: Array },
+      saveSelectedItems: { type: Function },
+      filterableList: { type: Array },
+      inputFieldName: { type: String },
     };
   }
   constructor() {
@@ -51,26 +54,37 @@ export class FilterSearch extends LitElement {
     this.tagElements = [];
     this.filterableList = [];
     this.searchKeyWord = '';
+    this.inputFieldName = '';
   }
   render() {
     this.listElements = [];
+    this.tagElements = [];
 
-    this.filterableList.forEach((req, index) => {
-      if (req.id.indexOf(this.searchKeyWord) === -1) {
-        return;
-      }
-      this.listElements.push(
-        html`<mwc-list-item @click=${() => this.renderselectedTag(index)}
-          >${req.id}</mwc-list-item
-        >`
-      );
-    });
+    if (this.filterableList) {
+      this.filterableList.forEach((req, index) => {
+        console.log(req);
+        this.tagElements.push(
+          html` <capsule-component .tag=${req}></capsule-component>`
+        );
+        if (req.indexOf(this.searchKeyWord) === -1) {
+          return;
+        }
+
+        this.listElements.push(
+          html`<mwc-list-item @click=${() => this.renderselectedTag(index)}
+            >${req}</mwc-list-item
+          >`
+        );
+      });
+    }
+
     return html`
       <div class="filter-container">
         <div class="tag-container">
           ${this.tagElements}
           <input
             class="filter-input"
+            name=${this.inputFieldName}
             @click=${() => {
               let menu = this.shadowRoot.getElementById('menu');
               menu.style.display = 'block';
@@ -88,7 +102,11 @@ export class FilterSearch extends LitElement {
     if (this.listElements.length === 0) {
       return html`
        <mwc-list-item
-       @click = ${() => console.log('Asd')}
+       @click = ${(e) => {
+         const inputField = this.shadowRoot.querySelector('.filter-input');
+
+         this.saveSelectedItems(inputField.value, inputField.name);
+       }}
  
           >
           <div class = "add-item">
@@ -105,7 +123,7 @@ export class FilterSearch extends LitElement {
     return this.listElements;
   }
   renderselectedTag(index) {
-    const element = this.filterableList[index].id;
+    const element = this.filterableList[index];
 
     this.tagElements = [
       ...this.tagElements,

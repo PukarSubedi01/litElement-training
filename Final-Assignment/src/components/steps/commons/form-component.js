@@ -16,6 +16,8 @@ export class StepsForm extends LitElement {
     return {
       saveOnPause: { type: Function },
       selectedStep: { type: Object },
+      saveSelectedItems: { type: Function },
+      stepsList: { type: Array },
     };
   }
 
@@ -37,7 +39,11 @@ export class StepsForm extends LitElement {
       >
       </mwc-textfield>
 
-      <filter-component></filter-component>
+      <filter-component
+        .saveSelectedItems=${this.saveSelectedItems}
+        .filterableList=${this.selectedStep.requirements}
+        .inputFieldName=${'requirements'}
+      ></filter-component>
       <!-- Text Editor Goes Here -->
 
       <mwc-textarea
@@ -46,19 +52,17 @@ export class StepsForm extends LitElement {
         @input=${(e) => {
           this.saveOnPause(e);
         }}
-        .value=${this.selectedStep.metrics}
+        .value=${this.selectedStep.metrics ? this.selectedStep.metrics : ''}
         outlined
         label="Metrics"
       >
       </mwc-textarea>
 
-      <mwc-select class="form-element" outlined label="Security Roles">
-        <mwc-list-item></mwc-list-item>
-        <mwc-list-item value="0">Item 0</mwc-list-item>
-        <mwc-list-item value="1">Item 1</mwc-list-item>
-        <mwc-list-item value="2">Item 2</mwc-list-item>
-        <mwc-list-item value="3">Item 3</mwc-list-item>
-      </mwc-select>
+      <filter-component
+        .saveSelectedItems=${this.saveSelectedItems}
+        .filterableList=${this.selectedStep.securityRoles}
+        .inputFieldName=${'securityRoles'}
+      ></filter-component>
     `;
   }
 }
