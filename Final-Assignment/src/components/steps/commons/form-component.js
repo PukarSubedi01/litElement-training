@@ -27,10 +27,42 @@ export class StepsForm extends LitElement {
 
   static get properties() {
     return {
+      /**
+       * @type {Function}
+       * Retrieved as props
+       * Used to save data when the user stops/pauses typing
+       */
       saveOnPause: { type: Function },
+
+      /**
+       * @type {Object}
+       * Retrieved as props
+       * stores the step that has been selected
+       */
       selectedStep: { type: Object },
+
+      /**
+       * @type {Function}
+       * Retrieved as props
+       * used to save the selected items from the select list
+       */
+
       saveSelectedItems: { type: Function },
+
+      /**
+       * @type {Array}
+       * Retrieved as props
+       * stores all the data in the list
+       */
+
       stepsList: { type: Array },
+
+      /**
+       * @type {Function}
+       * Retrieved as props
+       * used to delete the selected step
+       */
+
       deleteStep: { type: Function },
     };
   }
@@ -55,7 +87,8 @@ export class StepsForm extends LitElement {
 
       <filter-component
         .saveSelectedItems=${this.saveSelectedItems}
-        .filterableList=${this.selectedStep.requirements}
+        .selectedListItems=${this.selectedStep.requirements}
+        .filterableList=${this.requirements}
         .inputFieldName=${'requirements'}
       ></filter-component>
       <!-- Text Editor Goes Here -->
@@ -74,7 +107,8 @@ export class StepsForm extends LitElement {
 
       <filter-component
         .saveSelectedItems=${this.saveSelectedItems}
-        .filterableList=${this.selectedStep.securityRoles}
+        .selectedListItems=${this.selectedStep.securityRoles}
+        .filterableList=${this.securityRoles}
         .inputFieldName=${'securityRoles'}
       ></filter-component>
       <mwc-button

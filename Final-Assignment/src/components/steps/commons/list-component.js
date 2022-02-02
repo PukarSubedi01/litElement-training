@@ -19,8 +19,20 @@ export class StepsList extends LitElement {
 
   static get properties() {
     return {
+      /**
+       * Retrieved as props which stores all the list items
+       */
       stepsList: [],
+
+      /**
+       * @type {Function}
+       * Function used to select the step (retrieved as props)
+       */
       selectStep: { type: Function },
+      /**
+       * @type {Function}
+       * Used swap the list items (retrieved as props)
+       */
       swapListItems: { type: Function },
     };
   }

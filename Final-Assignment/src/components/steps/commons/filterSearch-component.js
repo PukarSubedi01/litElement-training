@@ -39,11 +39,42 @@ export class FilterSearch extends LitElement {
   }
   static get properties() {
     return {
+      /**
+       * @type {String}
+       * Stores the keyword used for filtering an element
+       */
       searchKeyWord: { type: String },
+      /**
+       * @type {Array}
+       * Retrieved as props
+       * stores the list that can be filtered (might include requirements or security roles)
+       */
       filterableList: { type: Array },
+      /**
+       * @type {Array}
+       * stores the html elements used as capsules
+       */
       tagElements: { type: Array },
+      /**
+       * @type {Function}
+       * Retrieved as props
+       * used to store the selected items to the local storage and the main list
+       */
       saveSelectedItems: { type: Function },
 
+      /**
+       * @type {Array}
+       * Retrieved as props
+       * Stores the selected items
+       */
+
+      selectedListItems: { type: Array },
+      /**
+       * @type {String}
+       * Retrieved as props
+       * stores the name for the input field which is passed as a props
+       * Makes the component dynamic and reusable for any text field
+       */
       inputFieldName: { type: String },
     };
   }
@@ -53,6 +84,7 @@ export class FilterSearch extends LitElement {
     this.listElements = [];
     this.tagElements = [];
     this.filterableList = [];
+    this.selectedListItems = [];
     this.searchKeyWord = '';
     this.inputFieldName = '';
   }
@@ -62,9 +94,6 @@ export class FilterSearch extends LitElement {
 
     if (this.filterableList) {
       this.filterableList.forEach((req, index) => {
-        this.tagElements.push(
-          html` <capsule-component .tag=${req}></capsule-component>`
-        );
         if (req.indexOf(this.searchKeyWord) === -1) {
           return;
         }
@@ -73,6 +102,13 @@ export class FilterSearch extends LitElement {
           html`<mwc-list-item @click=${() => this.renderselectedTag(index)}
             >${req}</mwc-list-item
           >`
+        );
+      });
+    }
+    if (this.selectedListItems) {
+      this.selectedListItems.forEach((item) => {
+        this.tagElements.push(
+          html` <capsule-component .tag=${item}></capsule-component>`
         );
       });
     }
@@ -97,6 +133,11 @@ export class FilterSearch extends LitElement {
       <mwc-list activatable id="menu"> ${this.checkFilterableList()}</mwc-list>
     `;
   }
+  /**
+   *
+   * @returns {void}
+   *
+   */
   checkFilterableList() {
     if (this.listElements.length === 0) {
       return html`
@@ -123,11 +164,11 @@ export class FilterSearch extends LitElement {
   }
   renderselectedTag(index) {
     const element = this.filterableList[index];
+    this.tagElements.push(
+      html` <capsule-component .tag=${element}></capsule-component>`
+    );
+    this.tagElements = [...this.tagElements];
 
-    this.tagElements = [
-      ...this.tagElements,
-      html` <capsule-component .tag=${element}></capsule-component>`,
-    ];
     const inputField = this.shadowRoot.querySelector('.filter-input');
     inputField.value = '';
   }

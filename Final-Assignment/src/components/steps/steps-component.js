@@ -17,18 +17,89 @@ export class StepComponent extends LitElement {
 
   static get properties() {
     return {
+      /**
+       * Saves data to local storage when the user stops typing for certain interval of times
+       */
       saveOnPause: { type: Function },
+      /**
+       * @type {Function}
+       * @returns {void}
+       * sets selected step from the list
+       */
       selectStep: { type: Function },
+
+      /**
+       * @type {Function}
+       * @returns {void}
+       * adds step to the list
+       */
+
       addStep: { type: Function },
+      /**
+       * @type {Array}
+       * stores the list of steps
+       */
       stepsList: { type: Array },
+
+      /**
+       * @type {Object}
+       * Initializes step object for an array
+       */
+
       step: { type: Object },
+
+      /**
+       * @type {Object}
+       * Stores selected step from the list
+       */
+
       selectedStep: { type: Object },
+      /**
+       * @type {Boolean}
+       * Determines if the progress bar needs to be shown
+       */
       showProgress: { type: Boolean },
+
+      /**
+       * @type {Function}
+       * Function to swap list
+       */
+
       swapListItems: { type: Function },
+
+      /**
+       * @type {Function}
+       * Saves the item from select field to the main list and local storage
+       */
+
       saveSelectedItems: { type: Function },
+
+      /**
+       * @type {Function}
+       * Deletes the selected item from the list
+       */
+
       deleteStep: { type: Function },
+
+      /**
+       * @type {Array}
+       * List that can be filtered
+       * Used for select item tag
+       */
+
       filterableList: { type: Array },
+
+      /**
+       * @type {Array}
+       * Used to store requirements item from the main list
+       */
+
       requirements: { type: Array },
+      /**
+       * @type {Array}
+       * Used to store security role items from the main list
+       */
+      securityRoles: { type: Array },
     };
   }
 
@@ -48,6 +119,19 @@ export class StepComponent extends LitElement {
       localStorage.setItem('steps', JSON.stringify([this.step]));
 
     this.requirements = [];
+    this.securityRoles = [];
+
+    this.stepsList.forEach((step) => {
+      if (step.requirements === undefined) return;
+      step.requirements.forEach((requirement) => {
+        this.requirements.push(requirement);
+      });
+
+      if (step.securityRoles === undefined) return;
+      step.securityRoles.forEach((role) => {
+        this.securityRoles.push(role);
+      });
+    });
 
     this.selectedIndex = 0;
     this.selectedStep = this.stepsList[this.selectedIndex];
@@ -73,6 +157,8 @@ export class StepComponent extends LitElement {
         .swapListItems=${this.swapListItems}
         .saveSelectedItems=${this.saveSelectedItems}
         .deleteStep=${this.deleteStep}
+        .requirements=${this.requirements}
+        .securityRoles=${this.securityRoles}
       ></content-component>
     `;
   }
@@ -112,14 +198,15 @@ export class StepComponent extends LitElement {
     localStorage.setItem('steps', JSON.stringify(this.stepsList));
   }
   saveSelectedItems(value, name) {
-    this.filterableList = this.stepsList[this.selectedIndex][name];
-    if (this.filterableList === undefined) this.filterableList = [];
-    if (!value) return;
-    this.filterableList.push(value);
-    this.stepsList[this.selectedIndex][name] = this.filterableList;
-    this.stepsList = [...this.stepsList];
-    localStorage.setItem('steps', JSON.stringify(this.stepsList));
-    this.filterableList = [];
+    console.log(value, name);
+    // this.filterableList = this.stepsList[this.selectedIndex][name];
+    // if (this.filterableList === undefined) this.filterableList = [];
+    // if (!value) return;
+    // this.filterableList.push(value);
+    // this.stepsList[this.selectedIndex][name] = this.filterableList;
+    // this.stepsList = [...this.stepsList];
+    // localStorage.setItem('steps', JSON.stringify(this.stepsList));
+    // this.filterableList = [];
   }
   deleteStep() {
     this.stepsList = [
