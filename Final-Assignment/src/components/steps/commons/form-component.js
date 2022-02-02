@@ -3,11 +3,24 @@ import '@material/mwc-textfield';
 import '@material/mwc-textarea';
 import '@material/mwc-select';
 import './filterSearch-component';
+import '@material/mwc-button';
+
 export class StepsForm extends LitElement {
   static get styles() {
     return css`
       .form-element {
         margin-top: 20px;
+      }
+      mwc-button {
+        --mdc-theme-primary: #e9437a;
+        --mdc-theme-on-primary: white;
+        width: 80px;
+        margin-left: auto;
+        border: 1px solid #e9437a;
+        font-weight: bold;
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
       }
     `;
   }
@@ -18,6 +31,7 @@ export class StepsForm extends LitElement {
       selectedStep: { type: Object },
       saveSelectedItems: { type: Function },
       stepsList: { type: Array },
+      deleteStep: { type: Function },
     };
   }
 
@@ -63,6 +77,11 @@ export class StepsForm extends LitElement {
         .filterableList=${this.selectedStep.securityRoles}
         .inputFieldName=${'securityRoles'}
       ></filter-component>
+      <mwc-button
+        outlined
+        label="Delete"
+        @click=${this.deleteStep}
+      ></mwc-button>
     `;
   }
 }

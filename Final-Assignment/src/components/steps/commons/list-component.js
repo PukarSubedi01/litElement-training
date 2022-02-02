@@ -1,8 +1,21 @@
 import { LitElement, html, css } from 'lit';
-
+import { styleMap } from 'lit-html/directives/style-map.js';
 export class StepsList extends LitElement {
   static get styles() {
-    return css``;
+    return css`
+      .draggable {
+        padding: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .draggable:hover {
+        cursor: pointer;
+      }
+      .active {
+        background: #ece8ff;
+        color: #9355fe;
+      }
+    `;
   }
 
   static get properties() {
@@ -26,7 +39,7 @@ export class StepsList extends LitElement {
     this.listElements = [];
     this.stepsList.forEach((step, index) => {
       this.listElements.push(html`
-        <p
+        <li
           class="draggable"
           draggable=${true}
           @click=${() => this.selectStep(index)}
@@ -38,12 +51,13 @@ export class StepsList extends LitElement {
           }}
         >
           ${step.step}
-        </p>
+        </li>
       `);
     });
 
     return html` <mwc-list activatable> ${this.listElements} </mwc-list> `;
   }
+  toggleActiveClass() {}
 }
 
 customElements.define('list-component', StepsList);

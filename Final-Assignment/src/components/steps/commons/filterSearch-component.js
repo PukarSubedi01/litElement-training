@@ -43,7 +43,7 @@ export class FilterSearch extends LitElement {
       filterableList: { type: Array },
       tagElements: { type: Array },
       saveSelectedItems: { type: Function },
-      filterableList: { type: Array },
+
       inputFieldName: { type: String },
     };
   }
@@ -62,7 +62,6 @@ export class FilterSearch extends LitElement {
 
     if (this.filterableList) {
       this.filterableList.forEach((req, index) => {
-        console.log(req);
         this.tagElements.push(
           html` <capsule-component .tag=${req}></capsule-component>`
         );

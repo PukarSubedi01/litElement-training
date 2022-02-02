@@ -24,6 +24,7 @@ export class StepsContent extends LitElement {
       selectedStep: { type: Object },
       swapListItems: { type: Function },
       saveSelectedItems: { type: Function },
+      deleteStep: { type: Function },
     };
   }
 
@@ -42,6 +43,7 @@ export class StepsContent extends LitElement {
         .saveOnPause=${this.saveOnPause}
         .selectedStep=${this.selectedStep}
         .saveSelectedItems=${this.saveSelectedItems}
+        .deleteStep=${this.deleteStep}
       ></form-component> `;
   }
 }

@@ -26,7 +26,9 @@ export class StepComponent extends LitElement {
       showProgress: { type: Boolean },
       swapListItems: { type: Function },
       saveSelectedItems: { type: Function },
+      deleteStep: { type: Function },
       filterableList: { type: Array },
+      requirements: { type: Array },
     };
   }
 
@@ -37,11 +39,15 @@ export class StepComponent extends LitElement {
     this.selectStep = this.selectStep.bind(this);
     this.swapListItems = this.swapListItems.bind(this);
     this.saveSelectedItems = this.saveSelectedItems.bind(this);
+    this.deleteStep = this.deleteStep.bind(this);
 
     this.step = { step: 'New Step' };
 
-    // localStorage.setItem('steps', JSON.stringify([this.step]));
     this.stepsList = JSON.parse(localStorage.getItem('steps'));
+    if (this.stepsList === null)
+      localStorage.setItem('steps', JSON.stringify([this.step]));
+
+    this.requirements = [];
 
     this.selectedIndex = 0;
     this.selectedStep = this.stepsList[this.selectedIndex];
@@ -66,6 +72,7 @@ export class StepComponent extends LitElement {
         .selectedStep=${this.selectedStep}
         .swapListItems=${this.swapListItems}
         .saveSelectedItems=${this.saveSelectedItems}
+        .deleteStep=${this.deleteStep}
       ></content-component>
     `;
   }
@@ -113,6 +120,20 @@ export class StepComponent extends LitElement {
     this.stepsList = [...this.stepsList];
     localStorage.setItem('steps', JSON.stringify(this.stepsList));
     this.filterableList = [];
+  }
+  deleteStep() {
+    this.stepsList = [
+      ...this.stepsList.slice(0, this.selectedIndex),
+      ...this.stepsList.slice(this.selectedIndex + 1),
+    ];
+
+    if (this.selectedIndex === this.stepsList.length) {
+      this.selectedIndex--;
+      this.selectedStep = this.stepsList[this.selectedIndex];
+    } else {
+      this.selectedStep = this.stepsList[this.selectedIndex];
+    }
+    localStorage.setItem('steps', JSON.stringify(this.stepsList));
   }
 }
 
