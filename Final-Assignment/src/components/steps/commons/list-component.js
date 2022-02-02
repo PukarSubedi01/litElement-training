@@ -6,7 +6,6 @@ export class StepsList extends LitElement {
       .draggable {
         padding: 20px;
         font-size: 20px;
-        font-weight: bold;
       }
       .draggable:hover {
         cursor: pointer;
@@ -33,6 +32,7 @@ export class StepsList extends LitElement {
       previousIndex: 0,
       newIndex: 0,
     };
+    this.previousIndex = 0;
   }
 
   render() {
@@ -40,9 +40,15 @@ export class StepsList extends LitElement {
     this.stepsList.forEach((step, index) => {
       this.listElements.push(html`
         <li
-          class="draggable"
+          class="draggable ${index === 0 ? 'active' : ''}"
           draggable=${true}
-          @click=${() => this.selectStep(index)}
+          @click=${() => {
+            const draggable = this.shadowRoot.querySelectorAll('.draggable');
+            draggable[this.previousIndex].classList.remove('active');
+            draggable[index].classList.add('active');
+            this.previousIndex = index;
+            this.selectStep(index);
+          }}
           @dragover=${(e) => e.preventDefault()}
           @dragstart=${() => (this.swapIndexes.previousIndex = index)}
           @drop=${() => {
